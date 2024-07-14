@@ -20,20 +20,18 @@ public class Main {
 
         List<Map.Entry<Integer, Integer>> mapToList = new ArrayList<>(hashMap.entrySet());
 
-        Collections.sort(mapToList, new Comparator<Map.Entry<Integer, Integer>>() {
-            @Override
-            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-                if (o2.getValue().equals(o1.getValue())) {
-                    return o2.getKey() - o1.getKey();
-                }
-                return o2.getValue() - o1.getValue();
+        mapToList.sort((e1, e2) -> {
+            int countComparison = Integer.compare(e2.getValue(), e1.getValue());
+            if (countComparison == 0) {
+                return Integer.compare(e2.getKey(), e1.getKey());
             }
+            return countComparison;
         });
 
         for (int i = 0; i < k; i++) {
             sb.append(mapToList.get(i).getKey()).append(" ");
         }
-        
+
         System.out.println(sb.toString().trim());
     }
 }
