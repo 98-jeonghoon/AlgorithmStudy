@@ -12,20 +12,16 @@ public class Main {
         for (int i = 0; i < parseWord.length; i++) {
             hashMap.put(parseWord[i], hashMap.getOrDefault(parseWord[i], 0) + 1);
         }
-
-        boolean found = false;
-        char answer = 0;
-        for (Map.Entry<Character, Integer> entry : hashMap.entrySet()) {
-            if (entry.getValue() == 1) {
-                found = true;
-                answer = entry.getKey();
-                break;
+        
+        
+        for (char c : word.toCharArray()) {
+            if (hashMap.get(c) == 1) {
+                System.out.println(c);
+                return;
             }
         }
-        if (found) {
-            System.out.println(answer);
-        }else{
-            System.out.println("None");
-        }
+
+        System.out.println("None");
+        
     }
 }
