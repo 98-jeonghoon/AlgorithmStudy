@@ -1,54 +1,39 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
+
 public class Main {
-    static int n, k;
-    static int answer = 0;
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         HashMap<Integer, Integer> hashMap = new HashMap<>();
         StringBuilder sb = new StringBuilder();
 
-        n = Integer.parseInt(st.nextToken());
-        k = Integer.parseInt(st.nextToken());
-
-        int[] arr = new int[n];
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+            int num = Integer.parseInt(st.nextToken());
+            hashMap.put(num, hashMap.getOrDefault(num, 0) + 1);
         }
 
-        for (int i = 0; i < n; i++) {
-            if (hashMap.containsKey(arr[i])) {
-                hashMap.put(arr[i], hashMap.get(arr[i]) + 1);
-            }else{
-                hashMap.put(arr[i], 1);
-            }
-        }
-        List<Map.Entry<Integer, Integer>> mapToList = new LinkedList<>(hashMap.entrySet());
-        List<Integer> answerSort = new ArrayList<>();
+        List<Map.Entry<Integer, Integer>> mapToList = new ArrayList<>(hashMap.entrySet());
 
         Collections.sort(mapToList, new Comparator<Map.Entry<Integer, Integer>>() {
             @Override
             public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-                return o2.getValue().compareTo(o1.getValue());
+                if (o2.getValue().equals(o1.getValue())) {
+                    return o2.getKey() - o1.getKey();
+                }
+                return o2.getValue() - o1.getValue();
             }
         });
 
-        for(Map.Entry<Integer, Integer> entry : mapToList){
-            answerSort.add(entry.getKey());
-            if (answerSort.size() == k) {
-                break;
-            }
-//            System.out.println(entry.getKey()+" "+entry.getValue());
+        for (int i = 0; i < k; i++) {
+            sb.append(mapToList.get(i).getKey()).append(" ");
         }
-//        System.out.println(answerSort);
-        Collections.reverse(answerSort);
-        for (int i = 0; i < answerSort.size(); i++) {
-            sb.append(answerSort.get(i)).append(" ");
-        }
-        System.out.println(sb);
+        
+        System.out.println(sb.toString().trim());
     }
 }
