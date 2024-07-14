@@ -3,37 +3,32 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    static int n;
-    static int[] A, B, C, D;
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         HashMap<Integer, Integer> mapAB = new HashMap<>();
-        HashMap<Integer, Integer> CSumD = new HashMap<>();
-
-        StringBuilder sb = new StringBuilder();
 
         int n = Integer.parseInt(st.nextToken());
 
-        A = new int[n];
+        int[] A = new int[n];
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             A[i] = Integer.parseInt(st.nextToken());
         }
 
-        B = new int[n];
+        int[] B = new int[n];
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             B[i] = Integer.parseInt(st.nextToken());
         }
 
-        C = new int[n];
+        int[] C = new int[n];
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             C[i] = Integer.parseInt(st.nextToken());
         }
 
-        D = new int[n];
+        int[] D = new int[n];
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             D[i] = Integer.parseInt(st.nextToken());
