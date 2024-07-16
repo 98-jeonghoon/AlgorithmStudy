@@ -32,11 +32,11 @@ public class Main {
                     Set<String> setB = new HashSet<>();
 
                     for (String word : groupA) {
-                        setA.add("" + word.charAt(i) + word.charAt(j) + word.charAt(k));
+                        setA.add(word.charAt(i) + word.charAt(j) + word.charAt(k));
                     }
 
                     for (String word : groupB) {
-                        setB.add("" + word.charAt(i) + word.charAt(j) + word.charAt(k));
+                        setB.add(word.charAt(i) + word.charAt(j) + word.charAt(k));
                     }
 
                     boolean isCorrect = true;
