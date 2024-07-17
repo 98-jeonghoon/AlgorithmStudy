@@ -1,95 +1,66 @@
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    static int[] parent;
-    static int[] size;
-    static boolean[] invited;
+    static int n, g;
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        // 입력 받기
-        int N = scanner.nextInt();
-        int G = scanner.nextInt();
-        List<int[]> groups = new ArrayList<>();
+        n = Integer.parseInt(st.nextToken());
+        g = Integer.parseInt(st.nextToken());
 
-        for (int i = 0; i < G; i++) {
-            int groupSize = scanner.nextInt();
-            int[] group = new int[groupSize];
-            for (int j = 0; j < groupSize; j++) {
-                group[j] = scanner.nextInt();
-            }
-            groups.add(group);
+        Map<Integer, List<Integer>> groupByPerson = new HashMap<>();
+        for (int i = 1; i <= n; i++) {
+            groupByPerson.put(i, new ArrayList<>());
         }
 
-        // Union-Find 초기화
-        parent = new int[N + 1];
-        size = new int[N + 1];
-        invited = new boolean[N + 1];
-
-        for (int i = 1; i <= N; i++) {
-            parent[i] = i;
-            size[i] = 1;
+        Map<Integer, Set<Integer>> notInvitedPeopleByGroup = new HashMap<>();
+        for (int i = 1; i <= g; i++) {
+            notInvitedPeopleByGroup.put(i, new HashSet<>());
         }
 
-        // 1번 사람은 무조건 초대장을 받음
-        invited[1] = true;
+        for (int i = 1; i <= g; i++) {
+            st = new StringTokenizer(br.readLine());
+            int len = Integer.parseInt(st.nextToken());
+            for (int j = 0; j < len; j++) {
+                int person = Integer.parseInt(st.nextToken());
 
-        // 그룹 정보를 이용해 Union 연산 수행
-        for (int[] group : groups) {
-            for (int i = 1; i < group.length; i++) {
-                union(group[0], group[i]);
+                List<Integer> group = groupByPerson.get(person);
+                group.add(i);
+
+                Set<Integer> notInvitedPeople = notInvitedPeopleByGroup.get(i);
+                notInvitedPeople.add(person);
             }
         }
 
-        // 초대장을 받을 확실한 사람들을 추적
-        for (int[] group : groups) {
-            int count = 0;
-            for (int person : group) {
-                if (invited[find(person)]) {
-                    count++;
+        int answer = 0;
+        boolean[] visited = new boolean[n + 1];
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(1);
+        visited[1] = true;
+
+        while (!queue.isEmpty()) {
+            int person = queue.poll();
+            answer++;
+
+            List<Integer> group = groupByPerson.get(person);
+            for (int groupNumber :
+                    group) {
+                Set<Integer> notInvitedPeople = notInvitedPeopleByGroup.get(groupNumber);
+                notInvitedPeople.remove(person);
+
+                if (notInvitedPeople.size() == 1) {
+                    int remainPerson = new ArrayList<>(notInvitedPeople).get(0);
+                    if (!visited[remainPerson]) {
+                        queue.add(remainPerson);
+                        visited[remainPerson] = true;
+                    }
                 }
             }
-            if (count == group.length - 1) {
-                for (int person : group) {
-                    invited[find(person)] = true;
-                }
-            }
         }
 
-        // 확실하게 초대장을 받는 인원 수 계산
-        Set<Integer> uniqueInvited = new HashSet<>();
-        for (int i = 1; i <= N; i++) {
-            if (invited[find(i)]) {
-                uniqueInvited.add(find(i));
-            }
-        }
-
-        System.out.println(uniqueInvited.size());
-        scanner.close();
-    }
-
-    // Find 연산 (경로 압축)
-    static int find(int x) {
-        if (parent[x] != x) {
-            parent[x] = find(parent[x]);
-        }
-        return parent[x];
-    }
-
-    // Union 연산 (사이즈 기반)
-    static void union(int x, int y) {
-        int rootX = find(x);
-        int rootY = find(y);
-
-        if (rootX != rootY) {
-            if (size[rootX] < size[rootY]) {
-                parent[rootX] = rootY;
-                size[rootY] += size[rootX];
-            } else {
-                parent[rootY] = rootX;
-                size[rootX] += size[rootY];
-            }
-        }
+        System.out.println(answer);
     }
 }
