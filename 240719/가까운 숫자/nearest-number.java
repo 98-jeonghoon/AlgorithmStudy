@@ -9,28 +9,25 @@ public class Main {
 
         TreeSet<Integer> points = new TreeSet<>();
         points.add(0);
-
-        PriorityQueue<Integer> minDistances = new PriorityQueue<>();
+        
+        int minDistance = Integer.MAX_VALUE;
 
         for (int i = 0; i < n; i++) {
             int x = Integer.parseInt(st.nextToken());
-
+            
             Integer lower = points.lower(x);
             Integer higher = points.higher(x);
 
             if (lower != null) {
-                minDistances.add(x - lower);
+                minDistance = Math.min(minDistance, x - lower);
             }
             if (higher != null) {
-                minDistances.add(higher - x);
-            }
-            if (lower != null && higher != null) {
-                minDistances.remove(higher - lower);
+                minDistance = Math.min(minDistance, higher - x);
             }
 
             points.add(x);
 
-            System.out.println(minDistances.peek());
+            System.out.println(minDistance);
         }
     }
 }
