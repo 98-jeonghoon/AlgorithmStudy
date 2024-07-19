@@ -18,8 +18,9 @@ public class Main {
 
         int answer = Integer.MAX_VALUE;
         for (int value : treeSet) {
-            if (treeSet.last() - value >= m) {
-                answer = Math.min(treeSet.last() - value, answer);
+            Integer target = treeSet.ceiling(value + m);
+            if (target != null) {
+                answer = Math.min(answer, target - value);
             }
         }
 
