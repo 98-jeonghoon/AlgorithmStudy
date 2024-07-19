@@ -19,17 +19,16 @@ public class Main {
 
             long target = a + b * t;
 
-            Long higher = groups.ceiling(target);
-
-            if (higher != null) {
+            while (true) {
+                Long higher = groups.ceiling(target);
+                if (higher != null) {
+                    break;
+                }
                 groups.remove(higher);
             }
-
             groups.add(target);
+
         }
-
         System.out.println(groups.size());
-
-
     }
 }
