@@ -1,14 +1,15 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 public class Main {
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        Long n = Long.parseLong(st.nextToken());
-        Long t = Long.parseLong(st.nextToken());
+        long n = Long.parseLong(st.nextToken());
+        long t = Long.parseLong(st.nextToken());
 
         TreeSet<Long> groups = new TreeSet<>();
 
@@ -18,17 +19,18 @@ public class Main {
             long b = Long.parseLong(st.nextToken());
 
             long target = a + b * t;
-
+            
             while (true) {
                 Long higher = groups.ceiling(target);
-                if (higher != null) {
+                if (higher == null) {
                     break;
                 }
                 groups.remove(higher);
             }
-            groups.add(target);
 
+            groups.add(target);
         }
+
         System.out.println(groups.size());
     }
 }
