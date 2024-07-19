@@ -1,30 +1,35 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = sc.nextInt();
-        int T = sc.nextInt();
-
-        List<Long> finalPositions = new ArrayList<>();
-
-        for (int i = 0; i < N; i++) {
-            long start = sc.nextLong();
-            long speed = sc.nextLong();
-            finalPositions.add(start + speed * T);
-        }
+        Long n = Long.parseLong(st.nextToken());
+        Long t = Long.parseLong(st.nextToken());
 
         TreeSet<Long> groups = new TreeSet<>();
 
-        for (long position : finalPositions) {
-            Long higher = groups.ceiling(position);
+        while (n-- > 0) {
+            st = new StringTokenizer(br.readLine());
+            long a = Long.parseLong(st.nextToken());
+            long b = Long.parseLong(st.nextToken());
+
+            long target = a + b * t;
+
+            Long higher = groups.ceiling(target);
+
             if (higher != null) {
                 groups.remove(higher);
             }
-            groups.add(position);
+
+            groups.add(target);
         }
 
         System.out.println(groups.size());
+
+
     }
 }
