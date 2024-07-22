@@ -1,40 +1,40 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int n = Integer.parseInt(st.nextToken());
-        int[] arr = new int[n];
-
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        int N = scanner.nextInt();
+        int[] nums = new int[N];
+        
+        for (int i = 0; i < N; i++) {
+            nums[i] = scanner.nextInt();
         }
+        
+        System.out.printf("%.2f\n", getMaxAverageAfterDeletions(N, nums));
+    }
+    
+    public static double getMaxAverageAfterDeletions(int N, int[] nums) {
+        double maxAverage = 0;
 
-        double maxValue = Double.MIN_VALUE;
-
-        // Sliding window and priority queue for efficiency
-        for (int k = 1; k <= n - 2; k++) {
-            PriorityQueue<Integer> pq = new PriorityQueue<>();
-            double sum = 0;
-
-            for (int i = k; i < n; i++) {
-                pq.add(arr[i]);
-                sum += arr[i];
+        for (int K = 1; K <= N - 2; K++) {
+            // 앞의 K개를 제외한 배열 생성
+            PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+            int sum = 0;
+            
+            for (int i = K; i < N; i++) {
+                minHeap.add(nums[i]);
+                sum += nums[i];
             }
-
-            // Remove the smallest element
-            sum -= pq.poll();
-
-            // Calculate the average
-            double avg = sum / (n - k - 1);
-            maxValue = Math.max(maxValue, avg);
+            
+            // 가장 작은 숫자 하나를 제거합니다.
+            sum -= minHeap.poll();
+            
+            // 나머지 숫자들의 평균을 구합니다.
+            double average = (double) sum / (N - K - 1);
+            maxAverage = Math.max(maxAverage, average);
         }
-
-        System.out.printf("%.2f", maxValue);
+        
+        return maxAverage;
     }
 }
