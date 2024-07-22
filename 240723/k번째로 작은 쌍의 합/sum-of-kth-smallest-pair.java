@@ -1,8 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -13,45 +12,47 @@ public class Main {
         int m = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
 
-        PriorityQueue<Integer> first = new PriorityQueue<>();
-        PriorityQueue<Integer> second = new PriorityQueue<>();
-        PriorityQueue<Point> pq = new PriorityQueue<>();
+        int[] first = new int[n];
+        int[] second = new int[m];
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
-            first.add(Integer.parseInt(st.nextToken()));
+            first[i] = Integer.parseInt(st.nextToken());
         }
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < m; i++) {
-            second.add(Integer.parseInt(st.nextToken()));
+            second[i] = Integer.parseInt(st.nextToken());
         }
 
-        while (!first.isEmpty()) {
-            int value = first.poll();
-            for (int secValue : second) {
-                pq.add(new Point(value, secValue));
+        Arrays.sort(first);
+        Arrays.sort(second);
+
+        PriorityQueue<Point> pq = new PriorityQueue<>();
+
+        for (int i = 0; i < n; i++) {
+            pq.add(new Point(first[i], second[0], 0));
+        }
+
+        Point answer = null;
+        for (int i = 0; i < k; i++) {
+            answer = pq.poll();
+            if (answer.yIndex + 1 < m) {
+                pq.add(new Point(answer.x, second[answer.yIndex + 1], answer.yIndex + 1));
             }
         }
 
-        for (int i = 0; i < pq.size(); i++) {
-            if (i == k - 1) {
-                break;
-            }
-            pq.poll();
-        }
-
-        Point answer = pq.poll();
         System.out.println(answer.x + answer.y);
     }
 }
 
 class Point implements Comparable<Point> {
-    int x, y;
+    int x, y, yIndex;
 
-    public Point(int x, int y) {
+    public Point(int x, int y, int yIndex) {
         this.x = x;
         this.y = y;
+        this.yIndex = yIndex;
     }
 
     @Override
