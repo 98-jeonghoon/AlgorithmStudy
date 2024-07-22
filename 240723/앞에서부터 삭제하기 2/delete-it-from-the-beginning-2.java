@@ -8,40 +8,33 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int n = Integer.parseInt(st.nextToken());
-        int[] arr = new int[n + 1];
+        int[] arr = new int[n];
 
         st = new StringTokenizer(br.readLine());
-        for (int i = 1; i <= n; i++) {
+        for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
         double maxValue = Double.MIN_VALUE;
-        int idx = 1;
 
-        while (true) {
+        // Sliding window and priority queue for efficiency
+        for (int k = 1; k <= n - 2; k++) {
             PriorityQueue<Integer> pq = new PriorityQueue<>();
             double sum = 0;
-            double cnt = 0;
 
-            for (int i = idx; i <= n; i++) {
+            for (int i = k; i < n; i++) {
                 pq.add(arr[i]);
+                sum += arr[i];
             }
 
-            // 가장 작은수 하나를 삭제하고
-            pq.poll();
-            cnt = pq.size();
-            while (!pq.isEmpty()) {
-                sum += pq.poll();
-            }
+            // Remove the smallest element
+            sum -= pq.poll();
 
-            double avg = sum / cnt;
+            // Calculate the average
+            double avg = sum / (n - k - 1);
             maxValue = Math.max(maxValue, avg);
-            idx++;
-            if (idx == n - 1) {
-                break;
-            }
         }
+
         System.out.printf("%.2f", maxValue);
     }
-
 }
