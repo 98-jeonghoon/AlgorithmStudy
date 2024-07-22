@@ -1,40 +1,44 @@
-import java.util.*;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
-        int N = scanner.nextInt();
-        int[] nums = new int[N];
-        
-        for (int i = 0; i < N; i++) {
-            nums[i] = scanner.nextInt();
-        }
-        
-        System.out.printf("%.2f\n", getMaxAverageAfterDeletions(N, nums));
-    }
-    
-    public static double getMaxAverageAfterDeletions(int N, int[] nums) {
-        double maxAverage = 0;
 
-        for (int K = 1; K <= N - 2; K++) {
-            // 앞의 K개를 제외한 배열 생성
-            PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-            int sum = 0;
-            
-            for (int i = K; i < N; i++) {
-                minHeap.add(nums[i]);
-                sum += nums[i];
-            }
-            
-            // 가장 작은 숫자 하나를 제거합니다.
-            sum -= minHeap.poll();
-            
-            // 나머지 숫자들의 평균을 구합니다.
-            double average = (double) sum / (N - K - 1);
-            maxAverage = Math.max(maxAverage, average);
+        int N = scanner.nextInt();
+        int[] arr = new int[N + 1];
+
+        for (int i = 1; i <= N; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        System.out.printf("%.2f\n", getMaxAverageAfterDeletions(N, arr));
+    }
+
+    public static double getMaxAverageAfterDeletions(int N, int[] arr) {
+        int[] prefix = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            prefix[i] = prefix[i - 1] + arr[i];
         }
         
-        return maxAverage;
+        int[] postfix = new int[N + 1];
+        int temp = 10001;
+        for (int i = N; i >= 0; i--) {
+            postfix[i] = Math.min(temp, arr[i]);
+            temp = postfix[i];
+        }
+
+        int total = 0;
+        for (int i = 1; i <= N; i++) {
+            total += arr[i];
+        }
+
+        double ans = 0;
+        for (int k = 1; k < N - 1; k++) {
+            int summation = total - prefix[k] - postfix[k + 1];
+            double avg = (double) summation / (N - k - 1);
+            ans = Math.max(ans, avg);
+        }
+
+        return ans;
     }
 }
