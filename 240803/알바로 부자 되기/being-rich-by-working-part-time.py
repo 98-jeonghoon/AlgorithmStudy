@@ -7,6 +7,8 @@ for i in range(n):
     s, e, p = map(int, input().split())
     arr.append((s, e, p))
 
+arr.sort(key = lambda x:(x[0], x[1], -x[2]))
+
 for i in range(n):
     dp[i] = arr[i][2]  # 현재 작업만 선택하는 경우
     for j in range(i):
