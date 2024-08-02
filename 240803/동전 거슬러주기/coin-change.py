@@ -13,7 +13,7 @@ for i in range(1, m + 1):
             dp[i] = min(dp[i], dp[i - coins[j]] + 1)
 
 answer = dp[m]
-if answer == -1e9:
+if answer == 1e9:
     print(-1)
 else:
     print(answer)
