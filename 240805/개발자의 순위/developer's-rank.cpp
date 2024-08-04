@@ -1,38 +1,43 @@
 #include <iostream>
-#include <vector>
+#include <algorithm>
 using namespace std;
 
+int k, n;
+int arr[100][100];
+int rank[100][100];
+
 int main() {
-    int k, n;
     cin >> k >> n;
-    
-    vector<vector<int>> rank(k, vector<int>(n + 1));
-    
-    for (int i = 0; i < k; i++) {
-        for (int j = 0; j < n; j++) {
-            int developer;
-            cin >> developer;
-            rank[i][developer] = j;  // 각 개발자의 순위를 기록
+    for(int i = 0; i < k; i++){
+        for(int j = 0; j < n; j++){
+            cin >> arr[i][j];
         }
     }
     
-    int count = 0;
-    for (int a = 1; a <= n; a++) {
-        for (int b = 1; b <= n; b++) {
-            if (a == b) continue;
-            
+    // 각 경기에서의 순위 계산
+    for(int i = 0; i < k; i++){
+        for(int j = 0; j < n; j++){
+            rank[i][arr[i][j] - 1] = j;
+        }
+    }
+    
+    int total_cnt = 0;
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++){
+            if(j == i) continue;
             bool always_better = true;
-            for (int game = 0; game < k; game++) {
-                if (rank[game][a] >= rank[game][b]) {
+            
+            for(int l = 0; l < k; l++){
+                if(rank[l][i] >= rank[l][j]){
                     always_better = false;
                     break;
                 }
             }
             
-            if (always_better) count++;
-        }
+            if(always_better) ++total_cnt;
+        }   
     }
     
-    cout << count << endl;
+    cout << total_cnt;
     return 0;
 }
