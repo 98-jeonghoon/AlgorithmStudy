@@ -1,23 +1,25 @@
 #include <iostream>
-#include <algorithm>
+#include <vector>
 using namespace std;
 
 int k, n;
-int arr[100][100];
-int rank[100][100];
 
 int main() {
     cin >> k >> n;
+    vector<vector<int>> arr(k, vector<int>(n));
+    vector<vector<int>> rank(k, vector<int>(n));
+
     for(int i = 0; i < k; i++){
         for(int j = 0; j < n; j++){
             cin >> arr[i][j];
+            arr[i][j]--; // 0-based 인덱스로 변환
         }
     }
     
     // 각 경기에서의 순위 계산
     for(int i = 0; i < k; i++){
         for(int j = 0; j < n; j++){
-            rank[i][arr[i][j] - 1] = j;
+            rank[i][arr[i][j]] = j;
         }
     }
     
