@@ -1,24 +1,21 @@
-n = int(input())
-sticks = [(0, 0)]
-arr = list(map(int, input().split()))
-for i in range(1, n + 1):
-    sticks.append((i, arr[i - 1]))
+n, m = map(int, input().split())
+items = []
 
-dp = [[0] * (n + 1) for _ in range(n + 1)]
+for _ in range(n):
+    w, v = map(int, input().split())
+    items.append((w, v))
 
-# 길이 먼저 시작
-for length in range(1, n + 1):
-    for stick in range(1, n + 1):
-        stick_len, stick_value = sticks[stick]
-        #  선택된 길이로 현재 길이를 만들 수 없다면
-        if stick_len > length:
-            # 전에 것 그대로 가져옴
-            dp[length][stick] = dp[length][stick - 1]
-        else:
-            if length % stick_len == 0:
-                quotient = length // stick_len
-                dp[length][stick] = max(dp[length][stick - 1], stick_value * quotient)
-                continue
-            dp[length][stick] = max(dp[length][stick - 1], dp[length - stick_len][stick - 1] + stick_value)
+# DP 배열 초기화 (1차원)
+dp = [0] * (m + 1)
 
-print(dp[n][n])
+# 각 무게에 대해
+for w in range(1, m + 1):
+    # 모든 아이템을 고려
+    for weight, value in items:
+        # 현재 아이템을 선택할 수 있는 경우
+        if weight <= w:
+            # 이전 상태와 현재 아이템을 선택한 경우 중 최대값 선택
+            dp[w] = max(dp[w], dp[w - weight] + value)
+
+# 최대 가치 출력
+print(dp[m])
