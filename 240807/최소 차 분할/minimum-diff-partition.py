@@ -1,15 +1,24 @@
-from itertools import combinations
+n = int(input().strip())
+numbers = list(map(int, input().strip().split()))
 
-n = int(input())
-numbers = list(map(int, input().split()))
 
-min_diff = sum(numbers)
+total_sum = sum(numbers)
+half_sum = total_sum // 2
 
-for i in range(1, n):
-    for combo in combinations(numbers, i):
-        sum_a = sum(combo)
-        sum_b = sum(numbers) - sum_a
-        diff = abs(sum_a - sum_b)
-        min_diff = min(min_diff, diff)
 
-print(min_diff)
+dp = [False] * (half_sum + 1)
+dp[0] = True
+
+for num in numbers:
+    for j in range(half_sum, num - 1, -1):
+        if dp[j - num]:
+            dp[j] = True
+
+for i in range(half_sum, -1, -1):
+    if dp[i]:
+        closest_sum = i
+        break
+
+min_difference = abs(total_sum - 2 * closest_sum)
+
+print(min_difference)
