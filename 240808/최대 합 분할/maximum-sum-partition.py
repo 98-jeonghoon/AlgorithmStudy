@@ -9,7 +9,7 @@ dp[0] = True
 max_sum_value = 0
 
 for num in numbers:
-    new_dp = dp
+    new_dp = dp[:]
     for j in range(total_sum - num, -1, -1):
         if dp[j]:
             new_dp[j + num] = True
