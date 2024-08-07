@@ -3,18 +3,20 @@ numbers = list(map(int, input().split()))
 
 total_sum = sum(numbers)
 
-dp = [False] * (total_sum + 1)
-dp[0] = True
-
-max_sum_value = 0
+dp = [[False] * (total_sum + 1) for _ in range(total_sum + 1)]
+dp[0][0] = True
 
 for num in numbers:
-    new_dp = dp[:]
-    for j in range(total_sum - num, -1, -1):
-        if dp[j]:
-            new_dp[j + num] = True
-            if new_dp[j + num] == True and (j + num) * 2 <= total_sum:
-                max_sum_value = max(max_sum_value, j + num)
-    dp = new_dp
+    for i in range(total_sum, -1, -1):
+        for j in range(total_sum, -1, -1):
+            if dp[i][j]:
+                dp[i + num][j] = True
+                dp[i][j + num] = True
 
-print(max_sum_value)
+max_equal_sum = 0
+for i in range(total_sum + 1):
+    for j in range(i + 1):
+        if dp[i][j] and i == j:
+            max_equal_sum = max(max_equal_sum, i)
+
+print(max_equal_sum)
