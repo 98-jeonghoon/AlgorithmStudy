@@ -12,9 +12,10 @@ for num in numbers:
 
 answer = False
 for i in range(1, total_sum + 1):
-    if total_sum - 2 * i == 0:
-        answer = True
-        break
+    if dp[i] == True:
+        if total_sum - 2 * i == 0:
+            answer = True
+            break
 
 if answer:
     print("Yes")
