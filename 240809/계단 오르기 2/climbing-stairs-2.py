@@ -15,4 +15,4 @@ for j in range(1, 4):
 #     print(i)
 
 
-print(dp[-1][-1])
+print(max(dp[n][j] for j in range(4)))
