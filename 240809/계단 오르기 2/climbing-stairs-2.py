@@ -11,7 +11,7 @@ dp[2][0] = coins[2]  # 두 번째 층에 2칸으로 올라갔을 경우
 for i in range(3, n + 1):
     for j in range(4):
         # 1칸 올라가는 경우 (최대 3번까지)
-        if j > 0 and dp[i-1][j-1] != -1:
+        if dp[i-1][j-1] != -1:
             dp[i][j] = max(dp[i][j], dp[i-1][j-1] + coins[i])
         
         # 2칸 올라가는 경우
