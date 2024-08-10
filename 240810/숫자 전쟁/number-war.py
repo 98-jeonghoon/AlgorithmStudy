@@ -1,17 +1,35 @@
-def max_score(n, player1, player2):
-    dp = [[0] * (n + 1) for _ in range(n + 1)]
-    
-    for i in range(n - 1, -1, -1):
-        for j in range(n - 1, -1, -1):
-            if player2[j] < player1[i]:
-                dp[i][j] = dp[i][j+1] + player2[j]
-            else:
-                dp[i][j] = max(dp[i+1][j], dp[i+1][j+1])
-    
-    return dp[0][0]
+import sys
 
-n = int(input())
-player1 = list(map(int, input().split()))
-player2 = list(map(int, input().split()))
+sys.setrecursionlimit(2000)  # 재귀 제한을 늘려줍니다.
 
-print(max_score(n, player1, player2))
+def solve(a, b):
+    if a == n or b == n:
+        return 0
+
+    if dp[a][b] != -1:
+        return dp[a][b]
+
+    if player1[a] < player2[b]:
+        dp[a][b] = solve(a + 1, b)
+
+    if player1[a] > player2[b]:
+        dp[a][b] = max(dp[a][b], solve(a, b + 1) + player2[b])
+
+    dp[a][b] = max(dp[a][b], solve(a + 1, b + 1))
+
+    return dp[a][b]
+
+def max_score():
+    n = int(input().strip())
+    global player1, player2, dp
+    player1 = list(map(int, input().strip().split()))
+    player2 = list(map(int, input().strip().split()))
+
+    # dp 테이블 초기화
+    dp = [[-1] * n for _ in range(n)]
+
+    # 결과 계산
+    ans = solve(0, 0)
+    print(ans)
+
+max_score()
