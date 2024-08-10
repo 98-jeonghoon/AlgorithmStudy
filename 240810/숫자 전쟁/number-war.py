@@ -7,10 +7,8 @@ def max_score():
     player1 = list(map(int, input().strip().split()))
     player2 = list(map(int, input().strip().split()))
 
-    # 동적 계획법 테이블 초기화
     dp = [[0] * (n + 1) for _ in range(n + 1)]
 
-    # 카드 정렬
     player1.sort()
     player2.sort()
 
