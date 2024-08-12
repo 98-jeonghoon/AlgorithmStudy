@@ -70,11 +70,19 @@ def explosion(x, y, copy_graph):
 
 answer = -1
 
+
+copy_graph = [
+    [0 for _ in range(n)]
+    for _ in range(n)
+]
 # 완탐으로 모든 좌표 다 폭탄 터트려보기
 for x in range(n):
     for y in range(n):
         # 원본 그래프를 바꾸면 안됨
-        copy_graph = copy.deepcopy(graph)
+        
+        for i in range(n):
+            for j in range(n):
+                copy_graph[i][j] = graph[i][j]
         answer = max(answer, explosion(x, y, copy_graph))
 
 print(answer)
