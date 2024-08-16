@@ -3,15 +3,15 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int m;
+    static long m;
     static long a, b;
-    static int[] arr;
+    static long[] arr;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        m = Integer.parseInt(br.readLine());
+        m = Long.parseLong(br.readLine());
 
-        arr = new int[m];
+        arr = new long[(int)m];
         for(int i = 0; i < m; i++){
             arr[i] = i + 1;
         }
@@ -23,7 +23,7 @@ public class Main {
         int maxValue = Integer.MIN_VALUE;
         int minValue = Integer.MAX_VALUE;
         for(long i = a; i <= b; i++){
-            int value = search((int)i);
+            int value = search(i);
             maxValue = Math.max(maxValue, value);
             minValue = Math.min(minValue, value);
         }
@@ -31,8 +31,8 @@ public class Main {
         System.out.println(minValue + " " + maxValue);
     }
 
-    static int search(int target){
-        int left = 0, right = m - 1;
+    static int search(long target){
+        int left = 0, right = (int)m - 1;
         int count = 0;
         while(left <= right){
             count++;
