@@ -15,7 +15,7 @@ public class Main {
         for (int i = 0; i < n; i++) {
             points[i] = Integer.parseInt(st.nextToken());
         }
-
+        Arrays.sort(points);
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int start = Integer.parseInt(st.nextToken());
