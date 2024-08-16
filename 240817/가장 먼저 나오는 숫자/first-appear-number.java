@@ -22,8 +22,9 @@ public class Main {
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < m; i++) {
             int target = Integer.parseInt(st.nextToken());
-            if (target == arr[lowerBound(target)]) {
-                System.out.println(lowerBound(target) + 1);
+            int index = lowerBound(target);
+            if (index < n && target == arr[index]) {
+                System.out.println(index + 1);
             }
             else {
                 System.out.println(-1);
