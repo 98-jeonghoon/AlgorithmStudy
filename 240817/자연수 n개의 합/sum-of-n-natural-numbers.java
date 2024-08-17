@@ -1,29 +1,28 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        long s = scanner.nextLong();
-        scanner.close();
+    static int s = 2000000000;
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        s = Integer.parseInt(br.readLine());
+        System.out.println(parametricSeach());
 
-        System.out.println(findMaxN(s));
     }
 
-    public static long findMaxN(long s) {
-        long left = 1;
-        long right = (long) Math.sqrt(2 * s);
-
-        while (left <= right) {
-            long mid = left + (right - left) / 2;
-            long sum = (mid * (mid + 1)) / 2;
-
-            if (sum <= s) {
+    static int parametricSeach(){
+        int left = 1, right = s;
+        int maxNum = 0;
+        while(left <= right){
+            int mid = (left + right) / 2;
+            // 1부터 n까지 합이 s보다 같거나 작다면
+            if(mid * (mid + 1) / 2 <= s ){
                 left = mid + 1;
-            } else {
+                maxNum = Math.max(maxNum, mid);
+            }else{
                 right = mid - 1;
             }
         }
-
-        return right;
+        return maxNum;
     }
 }
