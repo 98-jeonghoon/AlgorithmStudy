@@ -2,28 +2,29 @@ import java.io.*;
 
 public class Main {
     static long s;
+
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         s = Long.parseLong(br.readLine());
-        System.out.println(findMaxN());
+        System.out.println(parametricSearch());
     }
 
-    static int findMaxN() {
-        int left = 1, right = (int)Math.sqrt(2 * s);  // s의 크기에 따른 n의 최대 범위를 설정
-        int maxN = 0;
+    static long parametricSearch() {
+        long left = 1, right = s;  // s 자체를 최댓값으로 설정
+        long maxNum = 0;
 
         while (left <= right) {
-            int mid = (left + right) / 2;
-            long sum = (long) mid * (mid + 1) / 2;  // n까지의 합을 구함
+            long mid = (left + right) / 2;
+            long sum = mid * (mid + 1) / 2;  // 1부터 mid까지의 합 계산
 
             if (sum <= s) {
-                maxN = mid;
-                left = mid + 1;  // 가능한 n을 더 키워보기 위해 left를 증가
+                maxNum = mid;  // 가능한 최대 n을 업데이트
+                left = mid + 1;  // n을 더 크게 탐색
             } else {
-                right = mid - 1;  // 합이 s를 넘으면 n을 줄이기 위해 right를 감소
+                right = mid - 1;  // n을 줄여서 탐색
             }
         }
 
-        return maxN;
+        return maxNum;
     }
 }
