@@ -1,30 +1,29 @@
-import java.io.*;
+import java.util.Scanner;
 
 public class Main {
-    static long s;
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long s = scanner.nextLong();
+        scanner.close();
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        s = Long.parseLong(br.readLine());
-        System.out.println(parametricSearch());
+        System.out.println(findMaxN(s));
     }
 
-    static long parametricSearch() {
-        long left = 1, right = s;  // s 자체를 최댓값으로 설정
-        long maxNum = 0;
+    public static long findMaxN(long s) {
+        long left = 1;
+        long right = (long) Math.sqrt(2 * s);
 
         while (left <= right) {
-            long mid = (left + right) / 2;
-            long sum = mid * (mid + 1) / 2;  // 1부터 mid까지의 합 계산
+            long mid = left + (right - left) / 2;
+            long sum = (mid * (mid + 1)) / 2;
 
             if (sum <= s) {
-                maxNum = mid;  // 가능한 최대 n을 업데이트
-                left = mid + 1;  // n을 더 크게 탐색
+                left = mid + 1;
             } else {
-                right = mid - 1;  // n을 줄여서 탐색
+                right = mid - 1;
             }
         }
 
-        return maxNum;
+        return right;
     }
 }
