@@ -20,7 +20,7 @@ public class Main {
         }
 
         int left = 1, right = maxValue;
-        int answer = Integer.MIN_VALUE;
+        int answer = 0;
         while (left <= right) {
             int mid = (left + right) / 2;
             int cnt = 0;
@@ -41,3 +41,6 @@ public class Main {
 
 
 }
+
+//1 10
+//1
