@@ -6,13 +6,13 @@ public class Main {
         int n = sc.nextInt();
         int k = sc.nextInt();
 
-        int left = 1;
-        int right = n * n;
-        int answer = 0;
+        long left = 1;
+        long right = (long) n * n;
+        long answer = 0;
 
         while (left <= right) {
-            int mid = left + (right - left) / 2;
-            int count = countLessThanOrEqual(mid, n);
+            long mid = left + (right - left) / 2;
+            long count = countLessThanOrEqual(mid, n);
 
             if (count >= k) {
                 answer = mid;
@@ -25,8 +25,8 @@ public class Main {
         System.out.println(answer);
     }
 
-    static int countLessThanOrEqual(int mid, int n) {
-        int count = 0;
+    static long countLessThanOrEqual(long mid, int n) {
+        long count = 0;
         for (int i = 1; i <= n; i++) {
             count += Math.min(mid / i, n);
         }
