@@ -19,14 +19,14 @@ public class Main {
         }
 
         Arrays.sort(arr);
-        long answer = 0;
+        long answer = Long.MAX_VALUE;
         long left = 1;
         right = right * n;
-        
+
         while (left <= right) {
             long mid = (left + right) / 2;
             if (check(mid)) {
-                answer = mid;
+                answer = Math.min(answer, mid);
                 right = mid - 1;
             } else {
                 left = mid + 1;
