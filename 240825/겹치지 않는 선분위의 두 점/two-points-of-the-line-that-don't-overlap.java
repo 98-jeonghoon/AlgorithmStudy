@@ -1,20 +1,26 @@
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    static int n, m;
+    static List<segments> segment;
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = sc.nextInt();
-        int M = sc.nextInt();
-        List<int[]> segments = new ArrayList<>();
+        segment = new ArrayList<>();
 
-        for (int i = 0; i < M; i++) {
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            segments.add(new int[]{a, b});
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            segment.add(new segments(a, b));
         }
 
-        Collections.sort(segments, Comparator.comparingInt(o -> o[0]));
+        Collections.sort(segment);
 
         int left = 1;
         int right = 1000000000;
@@ -22,40 +28,55 @@ public class Main {
 
         while (left <= right) {
             int mid = (left + right) / 2;
-
-            if (canPlacePoints(segments, N, mid)) {
+            if (check(mid)) {
                 answer = mid;
                 left = mid + 1;
-            } else {
+            }else
                 right = mid - 1;
-            }
         }
 
         System.out.println(answer);
+
     }
 
-    private static boolean canPlacePoints(List<int[]> segments, int N, int d) {
-        int count = 0;
+    static boolean check(int mid) {
+        int cnt = 0;
         int lastPosition = -1;
 
-        for (int[] segment : segments) {
-            int start = segment[0];
-            int end = segment[1];
+        for (segments s : segment) {
+            int start = s.start;
+            int end = s.end;
 
             if (lastPosition < start) {
                 lastPosition = start;
             }
 
             while (lastPosition <= end) {
-                count++;
-                lastPosition += d;
-
-                if (count >= N) {
+                cnt++;
+                lastPosition += mid;
+                if (cnt >= n) {
                     return true;
                 }
             }
         }
 
-        return count >= N;
+        return cnt >= n;
     }
+
+    static class segments implements Comparable<segments>{
+        int start, end;
+
+        public segments(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
+
+
+        @Override
+        public int compareTo(segments o) {
+            int result = Integer.compare(this.start, o.start);
+            return result;
+        }
+    }
+
 }
