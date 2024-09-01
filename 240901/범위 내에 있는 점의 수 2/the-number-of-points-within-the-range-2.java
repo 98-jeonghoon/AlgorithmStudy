@@ -15,15 +15,16 @@ public class Main {
         prefixSum = new int[SIZE];
 
         st = new StringTokenizer(br.readLine());
-        for (int i = 1; i <= n; i++) {
+        int maxValue = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
             int point = Integer.parseInt(st.nextToken());
-            arr[i] = point;
-            prefixSum[arr[i]]++;
+            arr[point] += 1;
+            maxValue = Math.max(maxValue, point);
         }
 
         prefixSum[0] = arr[0];
-        for (int i = 1; i < SIZE; i++) {
-            prefixSum[i] += prefixSum[i - 1];
+        for (int i = 1; i <= SIZE; i++) {
+            prefixSum[i] = prefixSum[i - 1] + arr[i];
         }
 
         for (int i = 0; i < q; i++) {
