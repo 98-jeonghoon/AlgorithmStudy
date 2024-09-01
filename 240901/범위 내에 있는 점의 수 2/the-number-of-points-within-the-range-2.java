@@ -2,46 +2,47 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int SIZE = 1000001;
-    static int n, q;
-    static int[] arr, prefixSum;
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        q = Integer.parseInt(st.nextToken());
-
-        arr = new int[SIZE];
-        prefixSum = new int[SIZE];
-
+        
+        int n = Integer.parseInt(st.nextToken());
+        int q = Integer.parseInt(st.nextToken());
+        
+        int[] points = new int[n];
         st = new StringTokenizer(br.readLine());
-        int maxValue = Integer.MIN_VALUE;
+        int maxPoint = 0;
         for (int i = 0; i < n; i++) {
-            int point = Integer.parseInt(st.nextToken());
-            arr[point] = 1;
-            maxValue = Math.max(maxValue, point);
+            points[i] = Integer.parseInt(st.nextToken());
+            maxPoint = Math.max(maxPoint, points[i]);
         }
-
-        prefixSum[0] = 0;
-        for (int i = 1; i < SIZE; i++) {
-            prefixSum[i] = prefixSum[i - 1] + arr[i];
+        
+        int[] prefixSum = new int[maxPoint + 2];
+        
+        for (int point : points) {
+            prefixSum[point]++;
         }
-
+        
+        for (int i = 1; i <= maxPoint; i++) {
+            prefixSum[i] += prefixSum[i - 1];
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        
         for (int i = 0; i < q; i++) {
             st = new StringTokenizer(br.readLine());
-            int s = Integer.parseInt(st.nextToken());
-            int e = Integer.parseInt(st.nextToken());
-            int answer = prefixCalc(s, e);
-            if (answer > 0) {
-                System.out.println(answer);
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            
+            if (a > maxPoint) {
+                sb.append(0).append("\n");
             } else {
-                System.out.println(0);
+                b = Math.min(b, maxPoint);
+                int result = prefixSum[b] - (a > 0 ? prefixSum[a - 1] : 0);
+                sb.append(result).append("\n");
             }
         }
-
-    }
-
-    static int prefixCalc(int s, int e) {
-        return prefixSum[e] - prefixSum[s - 1];
+        
+        System.out.print(sb.toString());
     }
 }
