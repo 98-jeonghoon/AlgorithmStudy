@@ -23,7 +23,7 @@ public class Main {
         }
 
         prefixSum[0] = arr[0];
-        for (int i = 1; i <= SIZE; i++) {
+        for (int i = 1; i <= maxValue; i++) {
             prefixSum[i] = prefixSum[i - 1] + arr[i];
         }
 
