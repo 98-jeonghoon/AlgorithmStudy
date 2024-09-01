@@ -22,7 +22,7 @@ public class Main {
             maxValue = Math.max(maxValue, point);
         }
 
-        prefixSum[0] = 0;
+        prefixSum[0] = arr[0];
         for (int i = 1; i <= maxValue; i++) {
             prefixSum[i] = prefixSum[i - 1] + arr[i];
         }
@@ -42,6 +42,9 @@ public class Main {
     }
 
     static int prefixCalc(int s, int e) {
+        if (s == 0){
+            return prefixSum[e];
+        }
         return prefixSum[e] - prefixSum[s - 1];
     }
 }
