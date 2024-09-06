@@ -1,11 +1,15 @@
+import heapq
 n = int(input())
 
 arr = list(map(int, input().split()))
+heapq.heapify(arr)
 
 answer = 0
 while len(arr) != 1:
-    arr.sort(reverse=True)
-    value = arr.pop() + arr.pop()
+    a = heapq.heappop(arr)
+    b = heapq.heappop(arr)
+    
+    value = a + b
     answer += value
-    arr.append(value)
+    heapq.heappush(arr, value)
 print(answer)
