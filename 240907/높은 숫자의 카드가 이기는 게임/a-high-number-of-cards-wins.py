@@ -7,7 +7,7 @@ for _ in range(n):
     value = int(input())
     B.append(value)
 
-# B를 set으로 변환하여 빠르게 탐색
+# B를 set으로 변환하여 탐색 속도 개선
 B_set = set(B)
 
 # A의 카드 리스트 구하기 (B에 없는 카드들)
@@ -24,7 +24,9 @@ B_pointer = 0
 answer = 0
 
 # 두 포인터로 카드 비교
-while A_pointer < n and B_pointer < n:
+while True:
+    if A_pointer == n:
+        break
     if A[A_pointer] > B[B_pointer]:
         answer += 1
         A_pointer += 1
