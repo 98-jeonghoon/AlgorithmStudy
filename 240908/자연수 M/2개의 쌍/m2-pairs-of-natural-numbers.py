@@ -1,18 +1,22 @@
-from collections import deque
-n = int(input())
+n = int(input()) 
+nums = [] 
 
-arr = []
 
 for _ in range(n):
-    x, y = map(int, input().split())
-    for _ in range(x):
-        arr.append(y)
+    count, value = map(int, input().split())
+    nums.extend([value] * count) 
 
-arr.sort()
-arr = deque(arr)
-answer = 1e9
+nums.sort()  
 
-while arr:
-    answer = min(answer, arr.popleft() + arr.pop())
+answer = 0  
+left = 0  
+right = len(nums) - 1  
+
+# 작은 수와 큰 수를 계속 짝지음
+while left < right:
+    pair_sum = nums[left] + nums[right]  # 두 수의 합
+    answer = max(answer, pair_sum)  # 가장 큰 합을 저장
+    left += 1  # 작은 수의 인덱스 이동
+    right -= 1  # 큰 수의 인덱스 이동
 
 print(answer)
