@@ -1,22 +1,30 @@
-n = int(input()) 
-nums = [] 
-
+n = int(input())
+nums = []
 
 for _ in range(n):
-    count, value = map(int, input().split())
-    nums.extend([value] * count) 
+    x, y = map(int, input().split()) 
+    nums.append((y, x)) 
 
-nums.sort()  
+nums.sort()
 
-answer = 0  
-left = 0  
-right = len(nums) - 1  
+left = 0 
+right = len(nums) - 1 
+answer = 0
 
-# 작은 수와 큰 수를 계속 짝지음
 while left < right:
-    pair_sum = nums[left] + nums[right]  # 두 수의 합
-    answer = max(answer, pair_sum)  # 가장 큰 합을 저장
-    left += 1  # 작은 수의 인덱스 이동
-    right -= 1  # 큰 수의 인덱스 이동
+
+    pair_sum = nums[left][0] + nums[right][0]
+    answer = max(answer, pair_sum)
+
+
+    pair_count = min(nums[left][1], nums[right][1])
+    nums[left] = (nums[left][0], nums[left][1] - pair_count)
+    nums[right] = (nums[right][0], nums[right][1] - pair_count)
+
+
+    if nums[left][1] == 0:
+        left += 1
+    if nums[right][1] == 0:
+        right -= 1
 
 print(answer)
