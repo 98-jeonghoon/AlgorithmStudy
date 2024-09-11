@@ -1,6 +1,5 @@
 s = list(input())
 
-print(s) 
 open_cnt = 0
 close_cnt = 0
 
