@@ -8,7 +8,7 @@ answer = -1e9
 
 for i in range(n):
     if i + k < n:
-        if bomb[i] == bomb[i + k]:
+        if bomb[i] in bomb[i + 1:i+k+1]:
             answer = max(answer, bomb[i])
 
 if answer == -1e9:
