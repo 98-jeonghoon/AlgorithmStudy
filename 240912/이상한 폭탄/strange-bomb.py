@@ -1,20 +1,18 @@
-n, k = map(int, input().split())
-bomb = []
+n, k = tuple(map(int, input().split()))
+arr = [
+    int(input())
+    for _ in range(n)
+]
+R = [0] * n
+last = [-1 for _ in range(1000001)]
 
-for _ in range(n):
-    bomb.append(int(input()))
+for i in range(n - 1, -1, -1):
+    R[i] = last[arr[i]]
+    last[arr[i]] = i
 
-answer = -1
-seen = set()
-
-# 슬라이딩 윈도우 방식으로 접근
+ans = -1
 for i in range(n):
-    if bomb[i] in seen:
-        answer = max(answer, bomb[i])
-    seen.add(bomb[i])
-    
-    # 윈도우 크기 초과 시 앞부분 제거
-    if i >= k:
-        seen.remove(bomb[i - k])
+    if R[i] != -1 and R[i] - i <= k:
+        ans = max(ans, arr[i])
 
-print(answer if answer != -1 else -1)
+print(ans)
