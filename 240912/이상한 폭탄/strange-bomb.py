@@ -11,4 +11,7 @@ for i in range(n):
         if bomb[i] == bomb[i + k]:
             answer = max(answer, bomb[i])
 
-print(answer)
+if answer == -1e9:
+    print(-1)
+else:
+    print(answer)
