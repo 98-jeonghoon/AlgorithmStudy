@@ -1,36 +1,29 @@
-import sys
-from collections import deque
-
 def can_color_half(grid, D):
     N = len(grid)
     total_cells = N * N
     target = (total_cells + 1) // 2  # 반올림
-    visited = [[False] * N for _ in range(N)]
-    colored_count = 0
-
-    def bfs(start_x, start_y):
-        nonlocal colored_count
-        queue = deque([(start_x, start_y)])
-        visited[start_x][start_y] = True
-        colored_count += 1
+    visited = [[-1] * N for _ in range(N)]
+    
+    def dfs(x, y, color):
+        if visited[x][y] == color:
+            return 0
+        if visited[x][y] != -1:
+            return 0
         
-        while queue:
-            x, y = queue.popleft()
-            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
-                nx, ny = x + dx, y + dy
-                if 0 <= nx < N and 0 <= ny < N and not visited[nx][ny]:
-                    if abs(grid[nx][ny] - grid[x][y]) <= D:
-                        visited[nx][ny] = True
-                        queue.append((nx, ny))
-                        colored_count += 1
-                        if colored_count >= target:
-                            return True
-        return False
+        visited[x][y] = color
+        count = 1
+        
+        for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < N and 0 <= ny < N and abs(grid[nx][ny] - grid[x][y]) <= D:
+                count += dfs(nx, ny, color)
+        
+        return count
 
     for i in range(N):
         for j in range(N):
-            if not visited[i][j]:
-                if bfs(i, j):
+            if visited[i][j] == -1:
+                if dfs(i, j, grid[i][j]) >= target:
                     return True
     return False
 
