@@ -1,6 +1,5 @@
 from collections import deque
 
-
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
@@ -62,6 +61,5 @@ def find_min_D(N, grid):
 
 N = int(input())
 grid = [list(map(int, input().split())) for _ in range(N)]
-
 
 print(find_min_D(N, grid))
