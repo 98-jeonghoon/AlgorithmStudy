@@ -5,12 +5,14 @@ def can_color_half(grid, D):
     N = len(grid)
     total_cells = N * N
     target = (total_cells + 1) // 2  # 반올림
-    
+    visited = [[False] * N for _ in range(N)]
+    colored_count = 0
+
     def bfs(start_x, start_y):
-        visited = [[False] * N for _ in range(N)]
+        nonlocal colored_count
         queue = deque([(start_x, start_y)])
         visited[start_x][start_y] = True
-        count = 1
+        colored_count += 1
         
         while queue:
             x, y = queue.popleft()
@@ -20,15 +22,16 @@ def can_color_half(grid, D):
                     if abs(grid[nx][ny] - grid[x][y]) <= D:
                         visited[nx][ny] = True
                         queue.append((nx, ny))
-                        count += 1
-                        if count >= target:
+                        colored_count += 1
+                        if colored_count >= target:
                             return True
         return False
 
     for i in range(N):
         for j in range(N):
-            if bfs(i, j):
-                return True
+            if not visited[i][j]:
+                if bfs(i, j):
+                    return True
     return False
 
 def find_min_D(grid):
