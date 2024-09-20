@@ -1,47 +1,53 @@
-def can_color_half(grid, D):
-    N = len(grid)
-    total_cells = N * N
-    target = (total_cells + 1) // 2  # 반올림
-    visited = [[-1] * N for _ in range(N)]
-    
-    def dfs(x, y, color):
-        if visited[x][y] == color:
-            return 0
-        if visited[x][y] != -1:
-            return 0
-        
-        visited[x][y] = color
-        count = 1
-        
-        for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
-            nx, ny = x + dx, y + dy
-            if 0 <= nx < N and 0 <= ny < N and abs(grid[nx][ny] - grid[x][y]) <= D:
-                count += dfs(nx, ny, color)
-        
-        return count
+import sys
+from collections import deque
 
-    for i in range(N):
-        for j in range(N):
-            if visited[i][j] == -1:
-                if dfs(i, j, grid[i][j]) >= target:
-                    return True
+# 변수 선언 및 입력:
+n = int(input())
+board = [list(map(int, input().split())) for _ in range(n)]
+
+dxs = [1, -1,  0, 0]
+dys = [0,  0, -1, 1]
+
+# bfs를 이용해 색칠하고 몇 칸이 칠해졌는지 확인합니다.
+def bfs(start_x, start_y, d):
+    visited = [[False] * n for _ in range(n)]
+    queue = deque([(start_x, start_y)])
+    visited[start_x][start_y] = True
+    count = 1
+
+    while queue:
+        x, y = queue.popleft()
+        for dx, dy in zip(dxs, dys):
+            next_x, next_y = x + dx, y + dy
+            if (0 <= next_x < n and 0 <= next_y < n
+                and not visited[next_x][next_y]
+                and abs(board[next_x][next_y] - board[x][y]) <= d):
+                visited[next_x][next_y] = True
+                queue.append((next_x, next_y))
+                count += 1
+
+    return count
+
+# d 이하로 인접한 칸을 색칠한다고 할 때,
+# 색칠된 칸이 전체 칸의 반 이상이 될 수 있는지 판단합니다.
+def is_possible(d):
+    for i in range(n):
+        for j in range(n):
+            if bfs(i, j, d) * 2 >= n * n:
+                return True
     return False
 
-def find_min_D(grid):
-    left, right = 0, max(max(row) for row in grid)
-    
-    while left < right:
-        mid = (left + right) // 2
-        if can_color_half(grid, mid):
-            right = mid
-        else:
-            left = mid + 1
-    
-    return left
+lo = 0                       # 답이 될 수 있는 가장 작은 숫자 값을 설정합니다.
+hi = 1000000                 # 답이 될 수 있는 가장 큰 숫자 값을 설정합니다.
+ans = 0                      # 답을 저장합니다.
 
+while lo <= hi:              # [lo, hi]가 유효한 구간이면 계속 수행합니다.
+    mid = (lo + hi) // 2     # 가운데 위치를 선택합니다.
+    if is_possible(mid):     # 결정문제에 대한 답이 Yes라면
+        hi = mid - 1         # 왼쪽에 조건을 만족하는 숫자가 더 있을 가능성 때문에 hi를 바꿔줍니다.
+        ans = mid            # 답의 후보들 중 최댓값을 계속 갱신해줍니다.
+    else:
+        lo = mid + 1         # 결정문제에 대한 답이 No라면 lo를 바꿔줍니다.
 
-N = int(input())
-grid = [list(map(int, input().split())) for _ in range(N)]
-
-
-print(find_min_D(grid))
+# 정답을 출력합니다.
+print(ans)
