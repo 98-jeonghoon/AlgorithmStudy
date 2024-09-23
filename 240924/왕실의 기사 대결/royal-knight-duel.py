@@ -14,9 +14,8 @@ for idx in range(1, n + 1):
     knight[idx] = [idx, r - 1, c - 1, h, w, k]
 
     for height in range(h):
-        knight_graph[r + height - 1][c - 1] = idx
-    for weight in range(w): 
-        knight_graph[r - 1][c + weight - 1] = idx
+        for weight in range(w):
+            knight_graph[r + height - 1][c + weight - 1] = idx
 
 command = []
 
