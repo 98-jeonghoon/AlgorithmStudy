@@ -14,9 +14,8 @@ for idx in range(1, n + 1):
     knight[idx] = [idx, r - 1, c - 1, h, w, k]
 
     for height in range(h):
-        knight_graph[r + height - 1][c - 1] = idx
-    for weight in range(w):
-        knight_graph[r - 1][c + weight - 1] = idx
+        for weight in range(w):
+            knight_graph[r + height - 1][c + weight - 1] = idx
 
 command = []
 
@@ -82,6 +81,12 @@ for i, direct in command:
     # print(record, is_moved)
     # 움직일 수 있는경우
     if is_moved == True:
+        for idx in range(1, n + 1):
+            if len(record[idx]) > 0:
+                r, c, h, w = knight[idx][1], knight[idx][2], knight[idx][3], knight[idx][4]
+                for row in range(r, r + h):
+                    for col in range(c, c+ w):
+                        knight_graph[row][col] = 0
         # 데미지를 계산함
         for idx in range(1, n + 1):
             if len(record[idx]) > 0:
@@ -99,7 +104,13 @@ for i, direct in command:
                             break
 
         # 나이트 그래프를 옮겨주기
-        knight_graph = move_knight_graph(record)
+        for idx in range(1, n + 1):
+            if len(record[idx]) > 0:
+                for nx , ny in record[idx]:
+                    knight_graph[nx][ny] = idx
+                r, c = record[idx][0]
+                knight[idx][1], knight[idx][2] = r, c
+        # knight_graph = move_knight_graph(record)
 
 answer = 0
 for idx in range(1, n + 1):
