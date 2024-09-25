@@ -57,10 +57,11 @@ def loser_move(x, y, loser_idx):
         nx = x + dx[loser_direct]
         ny = y + dy[loser_direct]
         # 만약 이동하려는 칸이 범위 밖이거나 다른 플레이어가 있다면
-        if nx < 0 or ny < 0 or nx >= n or ny >= n and people_graph[nx][ny] != 0:
-            # 90도 회전
-            loser_direct = (loser_direct + 1) % 4
-            continue
+        if nx < 0 or ny < 0 or nx >= n or ny >= n:
+            if people_graph[nx][ny] != 0:
+                # 90도 회전
+                loser_direct = (loser_direct + 1) % 4
+                continue
         else:
             # 그게 아니라면 해당 칸으로 이동하고, 만약 해당 칸에 총이 있다면 가장 공격력이 높은 총 획득
             # 사람의 좌표를 바꿔줌
