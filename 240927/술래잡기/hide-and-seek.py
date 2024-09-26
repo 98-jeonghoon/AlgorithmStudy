@@ -8,7 +8,7 @@ sulae_pos = (n // 2, n // 2)
 now_direct = True
 runner_graph = [[[] for _ in range(n)] for _ in range(n)]
 # 좌우상하
-dx = [0, 0, -1, 1]
+dx = [0, 0, 1, -1]
 dy = [-1, 1, 0, 0]
 
 # 상 우 하 좌
