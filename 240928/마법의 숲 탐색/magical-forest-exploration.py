@@ -157,7 +157,7 @@ def exit_logic(x, y):
     return value
 
 def check_body():
-    for i in range(2):
+    for i in range(3):
         for j in range(c):
             # 만약 하나라도 존재하면
             if graph[i][j] != 0:
@@ -172,6 +172,9 @@ for i in range(k):
         nx = x + dx[direct]
         ny = y + dy[direct]
         graph[nx][ny] = idx
+    # for pp in graph:
+    #     print(pp)
+    # print()
     exit_x, exit_y = x + dx[d], y + dy[d]
     exit[exit_x][exit_y] = True
     if check_body() == False:
@@ -180,6 +183,7 @@ for i in range(k):
         continue
     # print(x, y, " x, y")
     value = exit_logic(x, y)
+    # print(value)
     answer += value - 2
     # print(value)
 
