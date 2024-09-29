@@ -7,7 +7,7 @@ dy = [0, 0, -1, 1]
 
 for _ in range(m):
     x, y = map(int, input().split())
-    graph[x - 1][y - 1] = -1
+    graph[x - 1][y - 1] += -1
 
 exit_x, exit_y = map(int, input().split())
 exit_pos = (exit_x - 1, exit_y - 1)
@@ -48,7 +48,7 @@ def people_move():
                     # 만약 이동한곳이 탈출구라면
                     if (nx, ny) == exit_pos:
                         is_exit = True
-                        answer += 1
+                        answer += abs(graph[x][y])
                         break
                     # 범위안에 들어가고 벽이 없다면
                     if 0 <= nx < n and 0 <= ny < n and graph[nx][ny] <= 0:
@@ -63,7 +63,7 @@ def people_move():
                 # 이동이 가능하다면 이동하고 거리를 추가해줌
                 if (min_x, min_y) != (-1, -1):
                     new_graph[min_x][min_y] += graph[x][y]
-                    answer += 1
+                    answer += abs(graph[x][y])
                 # 이동이 불가능하다면 그대로 냅둠
                 else:
                     new_graph[x][y] += graph[x][y]
@@ -114,9 +114,9 @@ def down_wall(size, x, y):
                 graph[x + i][y + j] = max(graph[x + i][y + j] - 1, 0)
 
 for time in range(k):
+    graph = people_move()
     if is_end():
         break
-    graph = people_move()
     square_size, square_x, square_y = find_square()
     # print(square_size, square_x, square_y)
     rotate(square_size, square_x, square_y)
