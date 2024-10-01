@@ -17,10 +17,11 @@ def find_teams():
                     for d in range(4):
                         nx = x + dx[d]
                         ny = y + dy[d]
-                        if (nx, ny) not in team:
-                            if graph[nx][ny] == 2 or graph[nx][ny] == 3:
-                                x, y = nx, ny
-                                team.append((nx, ny))
+                        if 0 <= nx < n and 0 <= ny < n:
+                            if (nx, ny) not in team:
+                                if graph[nx][ny] == 2 or graph[nx][ny] == 3:
+                                    x, y = nx, ny
+                                    team.append((nx, ny))
                 teams.append(team)
     return teams
 
