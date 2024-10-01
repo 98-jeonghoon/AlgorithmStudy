@@ -86,10 +86,13 @@ def throws_ball_pos(round):
 
 def find_bump_people(ball_x, ball_y, direct):
     while True:
-        if graph[ball_x][ball_y] in [1, 2, 3]:
-            return ball_x, ball_y
-        ball_x = ball_x + dx[direct]
-        ball_y = ball_y + dy[direct]
+        # 범위를 벗어나면
+        if ball_x < 0 or ball_y < 0 or ball_x >= n or ball_y >= n:
+            return False, -1, -1
+        if 1 <= graph[ball_x][ball_y] <= 3:
+            return True, ball_x, ball_y
+        ball_x += dx[direct]
+        ball_y += dy[direct]
 
 def cnt_point_reverse(bump_x, bump_y):
     global answer
@@ -126,8 +129,10 @@ for round in range(k):
     # for i in graph:
     #     print(i)
     ball_x, ball_y, ball_direct = throws_ball_pos(round)
-    bump_x, bump_y = find_bump_people(ball_x, ball_y, ball_direct)
-    cnt_point_reverse(bump_x, bump_y)
+    # print(ball_x, ball_y, ball_direct)
+    is_bump, bump_x, bump_y = find_bump_people(ball_x, ball_y, ball_direct)
+    if is_bump:
+        cnt_point_reverse(bump_x, bump_y)
     # print("round", round, " : ", x, y, direct)
 
 print(answer)
