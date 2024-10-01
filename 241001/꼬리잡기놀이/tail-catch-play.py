@@ -11,17 +11,23 @@ def find_teams():
             # head를 찾았을때,
             if graph[x][y] == 1:
                 team = [(x, y)]
-                while True:
-                    if graph[x][y] == 3:
-                        break
+                while graph[x][y] != 3:
                     for d in range(4):
                         nx = x + dx[d]
                         ny = y + dy[d]
-                        if 0 <= nx < n and 0 <= ny < n:
-                            if (nx, ny) not in team:
-                                if graph[nx][ny] == 2 or graph[nx][ny] == 3:
-                                    x, y = nx, ny
-                                    team.append((nx, ny))
+                        if nx < 0 or ny < 0 or nx >= n or ny >= n:
+                            continue
+                        if graph[x][y] == 1 and graph[nx][ny] == 3:
+                            continue
+                        if graph[nx][ny] == 0:
+                            continue
+                        if graph[nx][ny] == 4:
+                            continue
+                        if (nx, ny) in team:
+                            continue
+                        team.append((nx, ny))
+                        x, y = nx, ny
+                        break
                 teams.append(team)
     return teams
 
@@ -126,8 +132,10 @@ for round in range(k):
     # print(teams)
     # print()
     # print(move_teams)
+    # print(round)
     # for i in graph:
     #     print(i)
+
     ball_x, ball_y, ball_direct = throws_ball_pos(round)
     # print(ball_x, ball_y, ball_direct)
     is_bump, bump_x, bump_y = find_bump_people(ball_x, ball_y, ball_direct)
