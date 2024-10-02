@@ -20,7 +20,7 @@ def is_end():
     return True
 
 
-def find_attacker(time):
+def find_attacker():
     attacker = []
     for x in range(n):
         for y in range(m):
@@ -29,7 +29,6 @@ def find_attacker(time):
     attacker.sort(key=lambda x : (x[0], -x[1], -(x[2] + x[3]), -x[3]))
     attacker_x, attacker_y = attacker[0][2], attacker[0][3]
     graph[attacker_x][attacker_y] += (n + m)
-    time_graph[attacker_x][attacker_y] = time
     return attacker_x, attacker_y
     pass
 
@@ -56,15 +55,14 @@ def bfs(x, y, victim_x, victim_y):
         for d in range(4):
             nx = (x + dx[d]) % n
             ny = (y + dy[d]) % m
-            if 0 <= nx < n and 0 <= ny < n:
-                # 부서진 포탑이 아니고, 방문한 포탑이 아니면
-                if graph[nx][ny] != 0 and visited[nx][ny] == False:
-                    visited[nx][ny] = True
-                    queue.append((nx, ny))
-                    # 어디서 온건지 기록해야됨
-                    backTrace[nx][ny] = (x, y)
-                    if (nx, ny) == (victim_x, victim_y):
-                        return visited, backTrace
+            # 부서진 포탑이 아니고, 방문한 포탑이 아니면
+            if graph[nx][ny] != 0 and visited[nx][ny] == False:
+                visited[nx][ny] = True
+                queue.append((nx, ny))
+                # 어디서 온건지 기록해야됨
+                backTrace[nx][ny] = (x, y)
+                if (nx, ny) == (victim_x, victim_y):
+                    return visited, backTrace
 
     return visited, backTrace
 
@@ -137,7 +135,10 @@ def attack(attacker_x, attacker_y, victim_x, victim_y):
     pass
 
 for time in range(1, k + 1):
-    attacker_x, attacker_y = find_attacker(time)
+    if is_end():
+        break
+    attacker_x, attacker_y = find_attacker()
+    time_graph[attacker_x][attacker_y] = time
     victim_x, victim_y = find_victim()
     attack(attacker_x, attacker_y, victim_x, victim_y)
     # for i in graph:
