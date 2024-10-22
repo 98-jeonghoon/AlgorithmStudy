@@ -38,4 +38,7 @@ for k in range(1, 101):
         answer_k = len(total_area)
         answer = k
 
-print(answer, answer_k)
+if (answer, answer_k) == (0, 0):
+    print(1, 0)
+else:
+    print(answer, answer_k)
